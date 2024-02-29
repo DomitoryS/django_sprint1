@@ -57,8 +57,13 @@ def post_detail(request, post_id):
     try:
         context = {'post': posts[post_id]}
     except IndexError:
-        raise Http404
-    return render(request, template, context)
+        raise Http404('Бэда! неверный id')
+    else:
+        if post_id != posts[post_id]['id']:
+            raise Http404('Бэда! Номер id не = индексу в списке')
+        else:
+            context = {'post': posts[post_id]}
+            return render(request, template, context)
 
 
 def category_posts(request, category_slug):
