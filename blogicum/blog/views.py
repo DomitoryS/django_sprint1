@@ -32,7 +32,7 @@ posts = [
                 гиблого места.''',
     },
     {
-        'id': 2,
+        'id': 22,
         'location': 'Остров отчаянья',
         'date': '25 октября 1659 года',
         'category': 'not-my-day',
@@ -54,16 +54,12 @@ def index(request):
 
 def post_detail(request, post_id):
     template = 'blog/detail.html'
+    post_idnum = {post['id']: post for post in posts}
     try:
-        context = {'post': posts[post_id]}
+        context = {'post': post_idnum[post_id]}
     except IndexError:
         raise Http404('Бэда! неверный id')
-    else:
-        if post_id != posts[post_id]['id']:
-            raise Http404('Бэда! Номер id не = индексу в списке')
-        else:
-            context = {'post': posts[post_id]}
-            return render(request, template, context)
+    return render(request, template, context)
 
 
 def category_posts(request, category_slug):
